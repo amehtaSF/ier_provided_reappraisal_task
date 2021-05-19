@@ -1,0 +1,132 @@
+<!-- 
+	Reappraisal Task Script
+
+	Liz Song, <lizsong@stanford.edu>
+	May, 2021
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>Reappraisal Script</title>
+	<script src="jspsych-6.3.1/jspsych.js"></script>
+	<script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response.js"></script>
+	<script src="jspsych-6.3.1/plugins/jspsych-image-keyboard-response.js"></script>
+	<script src="jspsych-6.3.1/plugins/jspsych-preload.js"></script>
+	<script src="jspsych-6.3.1/plugins/jspsych-survey-likert.js"></script>
+	<link href="jspsych-6.3.1/css/jspsych.css" rel="stylesheet" type="text/css">
+  </head>
+  <body></body>
+  <script>
+
+	/* create timeline */
+	var timeline = [];
+
+	/* preload images */
+	var preload = {
+	  	type: 'preload',
+	  	images: ['img/blue.png', 'img/orange.png']
+	}
+	timeline.push(preload);
+
+	/* define welcome message trial */
+	var welcome = {
+	  type: "html-keyboard-response",
+	  stimulus: "Welcome to the experiment. Press any key to begin."
+	};
+	timeline.push(welcome);
+
+	/* define instructions trial */
+	var instructions = {
+	  type: "html-keyboard-response",
+	  stimulus: `
+		<p>Here lies the instructions to the experiment. The test will begin on the next page.</p>
+	  `
+	};
+	timeline.push(instructions);
+
+	/* test trials start */
+		// test stimuli of images 
+	var test_stimuli = [
+		{ stimulus: "img/blue.png"},
+		{ stimulus: "img/orange.png"}
+	];
+
+		// constant for self-gen or given reappraisal in step 3
+	const rethinkPath = jsPsych.randomization.sampleWithReplacement([0, 1], 1)[0];
+
+	/* step 1: ask user to click to preview image */
+	var step1 = {
+		type: "html-keyboard-response",
+		stimulus: "Click to preview image"
+	};
+
+	/* step 2: preview image for 1 second */
+	var step2 = {
+		type: "image-keyboard-response", 
+		stimulus: jsPsych.timelineVariable('stimulus'),
+		choices: jsPsych.NO_KEYS,
+		trial_duration: 1000
+	}
+
+	/* step 3: have user attend or rethink the image they just saw */
+	var step3 = {
+	  type: 'html-keyboard-response',
+	  stimulus: function(){ 
+	  		// within subject case: if 0, user attends; if 1, user rethinks
+			if (jsPsych.randomization.sampleWithReplacement([0, 1], 1)[0] == 0) {
+				return "attend"; 
+			}
+			else {
+				// between subject case: if 0, user is given appraisal; if 1, user thinks of their own
+				if (rethinkPath == 0) {
+					return "*given appraisal*";
+				}
+				else {
+					return "think of your own reapprasial";
+				}
+			}		
+		},
+	  choices: jsPsych.NO_KEYS,
+	  trial_duration: 6000
+	};	
+
+	/* step 4: view image for six seconds */
+	var step4 = {
+	  type: 'image-keyboard-response',
+	  stimulus: jsPsych.timelineVariable('stimulus'),
+	  choices: jsPsych.NO_KEYS,
+	  trial_duration: 6000
+	};
+
+	/* step 5: have user rate their negative and positive emotions */
+	var scale = [ 
+		"Strongly Disagree", 
+		"Disagree", 
+		"Neutral", 
+		"Agree", 
+		"Strongly Agree"
+	];
+
+	var step5 = {
+		type: 'survey-likert',
+		questions: [
+			{prompt: "I feel negative emotion(s) towards the image", name: 'negative', labels: scale},
+			{prompt: "I feel positive emotion(s) towards the image", name: 'positive', labels: scale}
+		],
+		randomize_question_order: false
+	};
+	
+	/* repeat above test trials for however many images there are within test_stimuli */
+	var test_procedure = {
+		timeline: [step1, step2, step3, step4, step5],
+		timeline_variables: test_stimuli
+	}
+	timeline.push(test_procedure);
+
+	/* start the experiment */
+	jsPsych.init({
+	  timeline: timeline	  
+	});
+  </script>
+  </html>
