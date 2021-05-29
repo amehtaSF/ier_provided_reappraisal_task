@@ -23,14 +23,21 @@
 
   	/* read JSON file (note: not technically a JSON file) */ 
   	var jsonObj = JSON.parse(reapp);
+  	console.log(jsonObj);
 
 	/* create timeline */
 	var timeline = [];
 
-	/* preload images */
+	/* isolate an array of just image names to preload */
+  	var imgName = [];
+  	jsonObj.forEach(function(entry){ 
+      imgName.push(entry.img); 
+	});
+	console.log(imgName);
+
 	var preload = {
 	  	type: 'preload',
-	  	images: ['img/blue.png', 'img/orange.png']
+	  	images: imgName
 	}
 	timeline.push(preload);
 
@@ -51,12 +58,6 @@
 	timeline.push(instructions);
 
 	/* test trials start */
-		// test stimuli of images 
-	var test_stimuli = [
-		{ stimulus: "img/blue.png"},
-		{ stimulus: "img/orange.png"}
-	];
-
 		// constant for self-gen or given reappraisal in step 3
 	const rethinkPath = jsPsych.randomization.sampleWithReplacement([0, 1], 1)[0];
 
@@ -69,7 +70,7 @@
 	/* step 2: preview image for 1 second */
 	var step2 = {
 		type: "image-keyboard-response", 
-		stimulus: jsPsych.timelineVariable('stimulus'),
+		stimulus: jsPsych.timelineVariable('img'),
 		choices: jsPsych.NO_KEYS,
 		trial_duration: 1000
 	}
@@ -85,7 +86,7 @@
 			else {
 				// between subject case: if 0, user is given appraisal; if 1, user thinks of their own
 				if (rethinkPath == 0) {
-					return "*given appraisal*";
+					return jsPsych.timelineVariable('reappraisal');
 				}
 				else {
 					return "think of your own reapprasial";
@@ -99,7 +100,7 @@
 	/* step 4: view image for six seconds */
 	var step4 = {
 	  type: 'image-keyboard-response',
-	  stimulus: jsPsych.timelineVariable('stimulus'),
+	  stimulus: jsPsych.timelineVariable('img'),
 	  choices: jsPsych.NO_KEYS,
 	  trial_duration: 6000
 	};
@@ -125,7 +126,8 @@
 	/* repeat above test trials for however many images there are within test_stimuli */
 	var test_procedure = {
 		timeline: [step1, step2, step3, step4, step5],
-		timeline_variables: test_stimuli
+		timeline_variables: jsonObj //, 
+//		randomize_order: true                       aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa don't forget this lol
 	}
 	timeline.push(test_procedure);
 
