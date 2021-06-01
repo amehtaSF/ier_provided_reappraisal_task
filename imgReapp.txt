@@ -1,4 +1,0 @@
-reapp = '[
-    { "img": "img/blue.png", "reappraisal": "this is a blue circle" },
-    { "img": "img/orange.png", "reappraisal": "this is an orange circle" }
-]';
