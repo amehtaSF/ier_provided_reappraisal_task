@@ -14,6 +14,8 @@
 	<script src="jspsych-6.3.1/plugins/jspsych-image-keyboard-response.js"></script>
 	<script src="jspsych-6.3.1/plugins/jspsych-preload.js"></script>
 	<script src="jspsych-6.3.1/plugins/jspsych-survey-likert.js"></script>
+	<script src="jspsych-6.3.1/plugins/jspsych-survey-text.js"></script>
+	<script src="jspsych-6.3.1/plugins/jspsych-instructions.js"></script>
 	<link href="jspsych-6.3.1/css/jspsych.css" rel="stylesheet" type="text/css">
   </head>
   <body></body>
@@ -21,67 +23,176 @@
 	<script type="text/javascript" src="imgReapp.js"></script>
   <script>
 
-  	/* read JSON file (note: not technically a JSON file) */ 
-  	var jsonObj = JSON.parse(reapp);
-  	console.log(jsonObj);
+
+	/**
+	 * Shuffles array in place. Based on Fisher-Yates Shuffle Algorithm 
+	 * https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
+	 * 
+	 * @param {Array} a items An array containing the items.
+	 */
+	function shuffle(a) {
+	    var j, x, i;
+	    for (i = a.length - 1; i > 0; i--) {
+	        j = Math.floor(Math.random() * (i + 1));
+	        x = a[i];
+	        a[i] = a[j];
+	        a[j] = x;
+	    }
+	    return a;
+	}
+
+//  INITIALIZATION 
+  	/* read JSON files for low and high intensity images (note: not technically a JSON file) */ 
+  	var jsonObj_low = JSON.parse(reapp_low);
+  	var jsonObj_high = JSON.parse(reapp_high);
 
 	/* create timeline */
 	var timeline = [];
 
-	/* isolate an array of just image names to preload */
-  	var imgName = [];
-  	jsonObj.forEach(function(entry){ 
-      imgName.push(entry.img); 
+	/* isolate image names from JSON file into arrays to preload */
+  	var imgName_low = [];
+  	var imgName_high = [];
+  	jsonObj_low.forEach(function(entry){ 
+    	imgName_low.push(entry.img); 
 	});
-	console.log(imgName);
-
+  	jsonObj_high.forEach(function(entry){
+  		imgName_high.push(entry.img);
+  	});
+		
 	var preload = {
 	  	type: 'preload',
-	  	images: imgName
+	  	images: imgName_low.concat(imgName_high) 
 	}
 	timeline.push(preload);
+	console.log(imgName_low.concat(imgName_high));
 
+	/* shuffles low and high intensity image arrays and partitions out 15 from each array into three blocks */
+	var img_low = shuffle(jsonObj_low);
+  	var img_high = shuffle(jsonObj_high);
+
+  	var block1 = [];
+  	var block2 = [];
+  	var block3 = [];
+
+  	var i
+  	for (i = 0; i < 15; i++) {
+  		block1.push(img_low[i]);
+  		block1.push(img_high[i]);
+  	}
+
+  	for (i = 15; i < 30; i++) {
+  		block2.push(img_low[i]);
+  		block2.push(img_high[i]);
+  	}
+
+  	for (i = 30; i < 45; i++) {
+  		block3.push(img_low[i]);
+  		block3.push(img_high[i]);
+  	}
+
+  	block1 = shuffle(block1);
+  	block2 = shuffle(block2);
+  	block3 = shuffle(block3);
+
+	/* constant for self-gen or given reappraisal for between-subject questions */
+	const rethinkPath = jsPsych.randomization.sampleWithReplacement([0, 1], 1)[0];
+	
+
+//  INTRO TO STUDY
 	/* define welcome message trial */
 	var welcome = {
-	  type: "html-keyboard-response",
-	  stimulus: "Welcome to the experiment. Press any key to begin."
+	  type: 'html-keyboard-response',
+	  stimulus: "Welcome to the experiment. In this study you will view emotional images and attempt to change your emotion response. Press any key on the keyboard to begin."
 	};
 	timeline.push(welcome);
 
-	/* define instructions trial */
-	var instructions = {
-	  type: "html-keyboard-response",
-	  stimulus: `
-		<p>Here lies the instructions to the experiment. The test will begin on the next page.</p>
-	  `
+
+//  TRAINING RETHINKING
+	/* define rethinking explanation trial */
+	var trainRethink = {
+	  type: 'instructions',
+	  pages: [
+	 		"Explain what rethinking is. Click next to move on to see an example image and an example reappraisal", 
+	 		"<img src='img/blue.png'></img> <p>An example reappraisal would be: This is a blue circle<p>",
+	 		"<img src='img/orange.png'></img> <p>An example reappraisal would be: This is an orange circle<p>"
+	  ],
+	  show_clickable_nav: true
 	};
-	timeline.push(instructions);
+	timeline.push(trainRethink);
 
-	/* test trials start */
-		// constant for self-gen or given reappraisal in step 3
-	const rethinkPath = jsPsych.randomization.sampleWithReplacement([0, 1], 1)[0];
 
+//  EXPLAINING TRIAL STRUCTURE
+	/* define explaining study structure trial */
+	var explain = {
+	  type: 'instructions',
+	  pages: [
+	  	'<p>In this study, you will be asked to either attend to an image or rethink an image.<p>', 
+	  	'<p>Attend: explain process<p>',
+	  	function(){ 
+	  		// between subject case: if 0, user is given appraisal; if 1, user thinks of their own 
+			if (rethinkPath == 0) { 
+				return "<p>Rethink: you will be given a reappraisal<p>"; 
+			} 
+			else { 
+				return "<p>Rethink: you will be asked to create your own reappraisal<p>"; 
+			} 
+		}, 
+		'<p>Click next to see a sample of what the study will look like<p>'
+		],
+	  show_clickable_nav: true
+	};
+	timeline.push(explain);
+
+	var step3_attend = {
+	  type: 'html-keyboard-response',
+	  stimulus: "Attend",
+	  choices: jsPsych.NO_KEYS,
+	  trial_duration: 6000
+	};
+
+	var step3_rethink = {
+	  type: 'html-keyboard-response',
+	  stimulus: function(){ 
+			// between subject case: if 0, user is given appraisal; if 1, user thinks of their own
+			if (rethinkPath == 0) {
+				return jsPsych.timelineVariable('reappraisal');
+			}
+			else {
+				return "Think of your own reapprasial";
+			}
+		},
+	  choices: jsPsych.NO_KEYS,
+	  trial_duration: 6000
+	};
+
+	var freewrite = {
+		type: 'survey-text',
+		questions: [{prompt: "What did you think about when you were viewing the picture?", rows: 5, columns: 40}]
+	}
+
+
+//  TEST TRIALS START
 	/* step 1: ask user to click to preview image */
 	var step1 = {
-		type: "html-keyboard-response",
-		stimulus: "Click to preview image"
+	  type: "html-keyboard-response",
+	  stimulus: "Press any key on the keyboard to preview the image"
 	};
 
 	/* step 2: preview image for 1 second */
 	var step2 = {
-		type: "image-keyboard-response", 
-		stimulus: jsPsych.timelineVariable('img'),
-		choices: jsPsych.NO_KEYS,
-		trial_duration: 1000
+	  type: "image-keyboard-response", 
+	  stimulus: jsPsych.timelineVariable('img'),
+	  choices: jsPsych.NO_KEYS,
+	  trial_duration: 1000
 	}
 
-	/* step 3: have user attend or rethink the image they just saw */
+	/* step 3: have user attend or rethink the image */
 	var step3 = {
 	  type: 'html-keyboard-response',
 	  stimulus: function(){ 
 	  		// within subject case: if 0, user attends; if 1, user rethinks
 			if (jsPsych.randomization.sampleWithReplacement([0, 1], 1)[0] == 0) {
-				return "attend"; 
+				return "Attend"; 
 			}
 			else {
 				// between subject case: if 0, user is given appraisal; if 1, user thinks of their own
@@ -89,7 +200,7 @@
 					return jsPsych.timelineVariable('reappraisal');
 				}
 				else {
-					return "think of your own reapprasial";
+					return "Think of your own reapprasial";
 				}
 			}		
 		},
@@ -115,25 +226,120 @@
 	];
 
 	var step5 = {
-		type: 'survey-likert',
-		questions: [
-			{prompt: "I feel negative emotion(s) towards the image", name: 'negative', labels: scale},
-			{prompt: "I feel positive emotion(s) towards the image", name: 'positive', labels: scale}
-		],
-		randomize_question_order: false
+	  type: 'survey-likert',
+	  questions: [
+	  	{prompt: "I feel negative emotion(s) towards the image", name: 'negative', labels: scale},
+		{prompt: "I feel positive emotion(s) towards the image", name: 'positive', labels: scale}
+	  ],
+	  randomize_question_order: false,
+	  on_finish: function(data){
+    	data.img = jsPsych.timelineVariable('img');
+  	  }
 	};
-	
-	/* repeat above test trials for however many images there are within test_stimuli */
-	var test_procedure = {
-		timeline: [step1, step2, step3, step4, step5],
-		timeline_variables: jsonObj //, 
-//		randomize_order: true                       aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa don't forget this lol
-	}
-	timeline.push(test_procedure);
 
+
+//  EXPLAINING TRIAL STRUCTURE TIMELINE (FROM INTRODUCTION SETUP)
+	/* explain trial structure timeline; attend */
+	var trial_structure_attend = {
+	  timeline: [step1, step2, step3_attend, step4, step5, freewrite],
+	  timeline_variables: [
+       	{ img: 'img/blue.png', reappraisal: 'This is a blue circle' },
+       	{ img: 'img/orange.png', reappraisal: 'This is an orange circle' }
+      ] 
+	}
+	timeline.push(trial_structure_attend);
+
+	/* explain trial structure timeline; rethink */
+	var trial_structure_rethink = {
+	  timeline: [step1, step2, step3_rethink, step4, step5, freewrite],
+	  timeline_variables: [
+       	{ img: 'img/blue.png', reappraisal: 'This is a blue circle' },
+       	{ img: 'img/orange.png', reappraisal: 'This is an orange circle' }
+      ]  
+	}
+	timeline.push(trial_structure_rethink);
+
+
+//  RUNNING EXPERIMENT TIMELINE
+	var begin_experiment = {
+	  type: 'html-keyboard-response',
+	  stimulus: "The experiment will be on the next page. Press any key on the keyboard to begin."
+	}
+	timeline.push(begin_experiment);
+
+	/* repeat test trials for block 1 of images */
+	var test_procedure1 = {
+	  timeline: [step1, step2, step3, step4, step5],
+	  timeline_variables: block1
+	}
+	timeline.push(test_procedure1);
+	
+	var freewrite1 = {
+	  type: 'survey-text',
+	  questions: [{prompt: "What did you think about when you were viewing the picture?", rows: 5, columns: 40}], 
+	  on_finish: function(data){
+    	data.img = block1[14].img;
+  	  }
+	}
+	timeline.push(freewrite1);
+
+	var break1 = {
+	  type: 'instructions',
+	  pages: ["We have now finished Block 1. Click next to continue to Block 2."],
+	  show_clickable_nav: true
+	}
+	timeline.push(break1);
+
+	/* repeat test trials for block 2 of images */
+	var test_procedure2 = {
+	  timeline: [step1, step2, step3, step4, step5],
+	  timeline_variables: block2
+	}
+	timeline.push(test_procedure2);
+	
+	var freewrite2 = {
+	  type: 'survey-text',
+	  questions: [{prompt: "What did you think about when you were viewing the picture?", rows: 5, columns: 40}], 
+	  on_finish: function(data){
+    	data.img = block2[14].img;
+  	  }
+	}
+	timeline.push(freewrite2);
+
+	var break2 = {
+	  type: 'instructions',
+	  pages: ["We have now finished Block 2. Click next to continue to Block 3."],
+	  show_clickable_nav: true
+	}
+	timeline.push(break2);
+
+	/* repeat test trials for block 3 of images */
+	var test_procedure3 = {
+	  timeline: [step1, step2, step3, step4, step5],
+	  timeline_variables: block3
+	}
+	timeline.push(test_procedure3);
+	
+	var freewrite3 = {
+	  type: 'survey-text',
+	  questions: [{prompt: "What did you think about when you were viewing the picture?", rows: 5, columns: 40}], 
+	  on_finish: function(data){
+    	data.img = block3[14].img;
+  	  }
+	}
+	timeline.push(freewrite3);
+
+	var break3 = {
+	  type: 'instructions',
+	  pages: ["We have now finished Block 3. Thank you for your participation."],
+	  show_clickable_nav: true
+	}
+	timeline.push(break3);
+
+//  START EXPERIMENT
 	/* start the experiment */
 	jsPsych.init({
-	  timeline: timeline	  
+	  timeline: timeline
 	});
   </script>
   </html>
