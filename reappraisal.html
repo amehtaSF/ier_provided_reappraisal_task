@@ -68,31 +68,31 @@
 
 	/* shuffles low and high intensity image arrays and partitions out 15 from each array into three blocks */
 	var img_low = shuffle(jsonObj_low);
-  	var img_high = shuffle(jsonObj_high);
+  var img_high = shuffle(jsonObj_high);
 
-  	var block1 = [];
-  	var block2 = [];
-  	var block3 = [];
+  var block1 = [];
+  var block2 = [];
+  var block3 = [];
 
-  	var i
-  	for (i = 0; i < 15; i++) {
-  		block1.push(img_low[i]);
-  		block1.push(img_high[i]);
-  	}
+  var i;
+  for (i = 0; i < 15; i++) {
+  	block1.push(img_low[i]);
+  	block1.push(img_high[i]);
+  }
 
-  	for (i = 15; i < 30; i++) {
-  		block2.push(img_low[i]);
-  		block2.push(img_high[i]);
-  	}
+  for (i = 15; i < 30; i++) {
+  	block2.push(img_low[i]);
+  	block2.push(img_high[i]);
+  }
 
-  	for (i = 30; i < 45; i++) {
-  		block3.push(img_low[i]);
-  		block3.push(img_high[i]);
-  	}
+  for (i = 30; i < 45; i++) {
+  	block3.push(img_low[i]);
+  	block3.push(img_high[i]);
+  }
 
-  	block1 = shuffle(block1);
-  	block2 = shuffle(block2);
-  	block3 = shuffle(block3);
+  block1 = shuffle(block1);
+  block2 = shuffle(block2);
+  block3 = shuffle(block3);
 
 	/* constant for self-gen or given reappraisal for between-subject questions */
 	const rethinkPath = jsPsych.randomization.sampleWithReplacement([0, 1], 1)[0];
