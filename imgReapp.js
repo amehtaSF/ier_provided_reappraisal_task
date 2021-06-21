@@ -1,4 +1,4 @@
-/*
+  /*
 	Reappraisal Images and Reappraisals 
 
 	Liz Song, <lizsong@stanford.edu>
@@ -24,6 +24,6 @@ var reapp_high = '[ \
 
 /*
 	template: { "img": "img/1271.jpg", "reappraisal": "" }, \
-
+	
 	reminder: don't forget to remove comma after the last image in each array
 */

@@ -64,7 +64,6 @@
 	  	images: imgName_low.concat(imgName_high) 
 	}
 	timeline.push(preload);
-	console.log(imgName_low.concat(imgName_high));
 
 	/* shuffles low and high intensity image arrays and partitions out 15 from each array into three blocks */
 	var img_low = shuffle(jsonObj_low);
@@ -96,13 +95,16 @@
 
 	/* constant for self-gen or given reappraisal for between-subject questions */
 	const rethinkPath = jsPsych.randomization.sampleWithReplacement([0, 1], 1)[0];
+
+	/* constant for attend/rethink self-gen/rethink given conditions. 0 = attend; 1 = rethink given; 2 = rethink self-gen */ 
+	var path = -1;
 	
 
 //  INTRO TO STUDY
 	/* define welcome message trial */
 	var welcome = {
 	  type: 'html-keyboard-response',
-	  stimulus: "Welcome to the experiment. In this study you will view emotional images and attempt to change your emotion response. Press any key on the keyboard to begin."
+	  stimulus: "Welcome to the experiment. Press any key on the keyboard to begin."
 	};
 	timeline.push(welcome);
 
@@ -112,7 +114,10 @@
 	var trainRethink = {
 	  type: 'instructions',
 	  pages: [
-	 		"Explain what rethinking is. Click next to move on to see an example image and an example reappraisal", 
+	  		"In this study you will view emotional images and attempt to change your emotion response.",
+	 		"In a process called rethinking, you stop and review an initial emotional response to consider if that emotional response should be changed.",
+	 		"A reappraisal is when you reframe an emotional situation to reduce the amount of negative emotion you may feel.",
+	 		"Click next to move on to see a few example images and example reappraisals", 
 	 		"<img src='img/blue.png'></img> <p>An example reappraisal would be: This is a blue circle<p>",
 	 		"<img src='img/orange.png'></img> <p>An example reappraisal would be: This is an orange circle<p>"
 	  ],
@@ -127,16 +132,21 @@
 	  type: 'instructions',
 	  pages: [
 	  	'<p>In this study, you will be asked to either attend to an image or rethink an image.<p>', 
-	  	'<p>Attend: explain process<p>',
+	  	'<p>You will first be shown an image for 1 second.<p>',
+	  	'<p>Then you will either attend to the image or rethink the image for 6 seconds. <p>',
+	  	'<p>If you see "Attend," do not do anything for 6 seconds. <p>',
 	  	function(){ 
 	  		// between subject case: if 0, user is given appraisal; if 1, user thinks of their own 
 			if (rethinkPath == 0) { 
-				return "<p>Rethink: you will be given a reappraisal<p>"; 
+				return '<p>If you see "Rethink," you will be given a reappraisal. Read it for the full length of the 6 seconds.<p>'; 
 			} 
 			else { 
-				return "<p>Rethink: you will be asked to create your own reappraisal<p>"; 
+				return '<p>If you see "Rethink," you will be asked to create your own reappraisal. Think of one for 6 seconds<p>'; 
 			} 
 		}, 
+		'<p>Then you will be shown the initial image again for 6 seconds.<p>',
+		'<p>You will be asked to fill out a two-question survey ranking the positive and negative emotions you feel about the image that you saw.<p>',
+		'<p>For a select few images in the Rethink condition, you will also be asked to write down what reappraisal you thought about.<p>',
 		'<p>Click next to see a sample of what the study will look like<p>'
 		],
 	  show_clickable_nav: true
@@ -145,7 +155,10 @@
 
 	var step3_attend = {
 	  type: 'html-keyboard-response',
-	  stimulus: "Attend",
+	  stimulus: function(){ 
+	  		path = 0;
+			return "Attend";
+		},
 	  choices: jsPsych.NO_KEYS,
 	  trial_duration: 6000
 	};
@@ -155,9 +168,11 @@
 	  stimulus: function(){ 
 			// between subject case: if 0, user is given appraisal; if 1, user thinks of their own
 			if (rethinkPath == 0) {
+				path = 1;
 				return jsPsych.timelineVariable('reappraisal');
 			}
 			else {
+				path = 2;
 				return "Think of your own reapprasial";
 			}
 		},
@@ -192,14 +207,17 @@
 	  stimulus: function(){ 
 	  		// within subject case: if 0, user attends; if 1, user rethinks
 			if (jsPsych.randomization.sampleWithReplacement([0, 1], 1)[0] == 0) {
+				path = 0;
 				return "Attend"; 
 			}
 			else {
 				// between subject case: if 0, user is given appraisal; if 1, user thinks of their own
 				if (rethinkPath == 0) {
+					path = 1;
 					return jsPsych.timelineVariable('reappraisal');
 				}
 				else {
+					path = 2;
 					return "Think of your own reapprasial";
 				}
 			}		
@@ -217,23 +235,38 @@
 	};
 
 	/* step 5: have user rate their negative and positive emotions */
-	var scale = [ 
-		"Strongly Disagree", 
-		"Disagree", 
-		"Neutral", 
-		"Agree", 
-		"Strongly Agree"
+	var scale_pos = [ 
+		"Not at all positive", 
+		"Slightly positive", 
+		"Moderately positive", 
+		"Very positive", 
+		"Extremely positive"
+	];
+
+	var scale_neg = [ 
+		"Not at all negative", 
+		"Slightly negative", 
+		"Moderately negative", 
+		"Very negative", 
+		"Extremely negative"
 	];
 
 	var step5 = {
 	  type: 'survey-likert',
 	  questions: [
-	  	{prompt: "I feel negative emotion(s) towards the image", name: 'negative', labels: scale},
-		{prompt: "I feel positive emotion(s) towards the image", name: 'positive', labels: scale}
+	  	{prompt: "How positive do you feel in response to this picture?", name: 'positive', labels: scale_pos},
+		{prompt: "How negative do you feel in response to this picture?", name: 'negative', labels: scale_neg}
 	  ],
 	  randomize_question_order: false,
 	  on_finish: function(data){
     	data.img = jsPsych.timelineVariable('img');
+    	if (path == 0) {
+    		data.path = "Attend";
+    	} else if (path == 1) {
+    		data.path = "Rethink given";
+    	} else if (path ==2) {
+    		data.path = "Rethink self-gen";
+    	}
   	  }
 	};
 
@@ -273,15 +306,6 @@
 	  timeline_variables: block1
 	}
 	timeline.push(test_procedure1);
-	
-	var freewrite1 = {
-	  type: 'survey-text',
-	  questions: [{prompt: "What did you think about when you were viewing the picture?", rows: 5, columns: 40}], 
-	  on_finish: function(data){
-    	data.img = block1[14].img;
-  	  }
-	}
-	timeline.push(freewrite1);
 
 	var break1 = {
 	  type: 'instructions',
@@ -296,15 +320,6 @@
 	  timeline_variables: block2
 	}
 	timeline.push(test_procedure2);
-	
-	var freewrite2 = {
-	  type: 'survey-text',
-	  questions: [{prompt: "What did you think about when you were viewing the picture?", rows: 5, columns: 40}], 
-	  on_finish: function(data){
-    	data.img = block2[14].img;
-  	  }
-	}
-	timeline.push(freewrite2);
 
 	var break2 = {
 	  type: 'instructions',
@@ -319,15 +334,6 @@
 	  timeline_variables: block3
 	}
 	timeline.push(test_procedure3);
-	
-	var freewrite3 = {
-	  type: 'survey-text',
-	  questions: [{prompt: "What did you think about when you were viewing the picture?", rows: 5, columns: 40}], 
-	  on_finish: function(data){
-    	data.img = block3[14].img;
-  	  }
-	}
-	timeline.push(freewrite3);
 
 	var break3 = {
 	  type: 'instructions',
