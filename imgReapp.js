@@ -62,12 +62,12 @@ var reapp_low = '[ \
     { "img": "img/9171.jpg", "reappraisal": "These fish are important to these peoples\' culture. They will go to good use."},\
     { "img": "img/9180.jpg", "reappraisal": "These sea lions suffered, but there is no way to change that. Many people and organizations are working hard to prevent situations like this in the future."},\
     { "img": "img/9182.jpg", "reappraisal": "These horses lived a long, happy life together and passed on peacefully."},\
-    { "img": "img/9168.jpg", "reappraisal": "The moon is bright and beautiful tonight."}\
+    { "img": "img/9168.jpg", "reappraisal": "The moon is bright and beautiful tonight."},\
     { "img": "img/9190.jpg", "reappraisal": "This person seems hot and uncomfortable, but it will be better once the sun goes down."},\
-    { "img": "img/9270.jpg", "reappraisal": "The person is safe because they are wearing protective gear."}\
+    { "img": "img/9270.jpg", "reappraisal": "The person is safe because they are wearing protective gear."},\
     { "img": "img/9280.jpg", "reappraisal": "This is just the way our cities look because big factories give us the comforts of modern life. "},\
-    { "img": "img/9290.jpg", "reappraisal": "The trash can be cleaned up to make this place even nicer than before."}\
-    { "img": "img/9291.jpg", "reappraisal": "The trash is compact enough to be picked up by the next garbage truck."}\
+    { "img": "img/9290.jpg", "reappraisal": "The trash can be cleaned up to make this place even nicer than before."},\
+    { "img": "img/9291.jpg", "reappraisal": "The trash is compact enough to be picked up by the next garbage truck."},\
     { "img": "img/9330.jpg", "reappraisal": "This city is very far away from me, I will never have to walk down these streets."},\
     { "img": "img/9331.jpg", "reappraisal": "The man is in better condition than he could be because he has clean clothes and shoes."},\
     { "img": "img/9341.jpg", "reappraisal": "The boy will be okay because he is light enough to make it to the other side of the river on the debris."},\
