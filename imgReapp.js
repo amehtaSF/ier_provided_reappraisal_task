@@ -42,7 +42,7 @@ var reapp_low = '[ \
     { "img": "img/7360.jpg", "reappraisal": "If the bug on the plate is gross, I don\'t have to eat the pie. "},\
     { "img": "img/7361.jpg", "reappraisal": "That is not actually the man\'s hand, he is just grinding some meat to cook. "},\
     { "img": "img/7520.jpg", "reappraisal": "It is great that the hospital beds are empty because their occupants have recovered and gone home."},\
-    { "img": "img/7521.jpg", "reappraisal": "" Hospitals can be scary, but they help save a lot of lives so they are important to society.},\
+    { "img": "img/7521.jpg", "reappraisal": "Hospitals can be scary, but they help save a lot of lives so they are important to society."},\
     { "img": "img/8231.jpg", "reappraisal": "The man took a hard loss, but now he will be motivated to work harder and come back better than he would have been otherwise. "},\
     { "img": "img/9001.jpg", "reappraisal": "There\'s nobody that I know here in this graveyard, so it\'s not that sad."},\
     { "img": "img/9002.jpg", "reappraisal": "This person is in a better place now."},\
@@ -188,7 +188,7 @@ var reapp_high = '[ \
     { "img": "img/250.jpg", "reappraisal": "This man is lucky to even be alive and his injuries appear more serious than they really are."},\
     { "img": "img/251.jpg", "reappraisal": "She is in a better place, her suffering is over."},\
     { "img": "img/252.jpg", "reappraisal": "The man is being treated at a psychiatric ward and has a detailed treatment plan that will address his condition, so with following these steps, he will be able to reenter society."}\
-]';
+    ]';
 
 /*
 	template: { "img": "img/1271.jpg", "reappraisal": "" }, \
