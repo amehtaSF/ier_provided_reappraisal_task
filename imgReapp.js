@@ -6,7 +6,6 @@
 */
 
 var reapp_low = '[ \
-    { "img": "img/1270.jpg", "reappraisal": "Since the bug looks like it under a microscope, the bug is probably not as big in real life" }, \
     { "img": "img/1271.jpg", "reappraisal": "The bugs look like they are happy and healthy in their enclosure" }, \
     { "img": "img/1301.jpg", "reappraisal": "The dog is excited and salivating to eat a piece of food being thrown to it" }, \
     { "img": "img/2278.jpg", "reappraisal": "The girls may be looking up at the sky and cloudwatching" }, \
@@ -17,7 +16,6 @@ var reapp_low = '[ \
     { "img": "img/1274.jpg", "reappraisal": "These insects may be scary, but they are an important part of our ecosystem."},\
     { "img": "img/1275.jpg", "reappraisal": "The insects aren\'t that big in real life."},\
     { "img": "img/1280.jpg", "reappraisal": "The rat is nowhere near me. It can\'t affect me."},\
-    { "img": "img/1301.jpg", "reappraisal": "This is actually a sweet pet who is playing fetch and about to catch the ball."},\
     { "img": "img/2120.jpg", "reappraisal": "The cops could protect me from this man."},\
     { "img": "img/2456.jpg", "reappraisal": "These people must be overcome with joy because they just won a huge prize."},\
     { "img": "img/2490.jpg", "reappraisal": "The man is probably in a nursing home where people can help him."},\
@@ -62,7 +60,6 @@ var reapp_low = '[ \
     { "img": "img/9171.jpg", "reappraisal": "These fish are important to these peoples\' culture. They will go to good use."},\
     { "img": "img/9180.jpg", "reappraisal": "These sea lions suffered, but there is no way to change that. Many people and organizations are working hard to prevent situations like this in the future."},\
     { "img": "img/9182.jpg", "reappraisal": "These horses lived a long, happy life together and passed on peacefully."},\
-    { "img": "img/9168.jpg", "reappraisal": "The moon is bright and beautiful tonight."},\
     { "img": "img/9190.jpg", "reappraisal": "This person seems hot and uncomfortable, but it will be better once the sun goes down."},\
     { "img": "img/9270.jpg", "reappraisal": "The person is safe because they are wearing protective gear."},\
     { "img": "img/9280.jpg", "reappraisal": "This is just the way our cities look because big factories give us the comforts of modern life. "},\
