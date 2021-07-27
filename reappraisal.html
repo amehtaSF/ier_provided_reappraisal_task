@@ -114,13 +114,14 @@
 	var trainRethink = {
 	  type: 'instructions',
 	  pages: [
-	  	"In this study you will engage in an emotion regulation strategy called \"reappraisal\" by viewing emotional images and attempting to change your emotion response.",
-	 		"In a process called rethinking, you will stop and review your initial emotional response to consider if that emotional response should be changed.",
-	 		"To reappraise an emotional image, think about the situation in a different way to reduce the amount of negative emotion you may feel.",
-	 		"Click next to move on to see a few example images and example reappraisals", 
-	 		"<img src='img/blue.png'></img> <p>An example reappraisal would be: This is a blue circle<p>",
-	 		"<img src='img/orange.png'></img> <p>An example reappraisal would be: This is an orange circle<p>",
-	 		"<img src='img/2357.jpg'></img> <p>You might see this image and feel a negative emotion such as sadness because the person looks depressed. You could reappraise the situation to feel less sad dby instead thinking that the person is just resting because they are tired.<p>"
+	  	"In this study, you will view negative emotional images. In some cases, you will use an emotion regulation strategy called reappraisal to try to change your emotional response.",
+	 		"To reappraise an emotional image, think about the situation in a different way to reduce the amount of negative emotion or increase the amount of positive emotion you may feel.",
+	 		"Click next to move on to see a few example images and example reappraisals.",
+	 		"<img src='img/2357.jpg'></img> <p>You might see this image and feel a negative emotion such as sadness because the person looks depressed. You could reappraise the situation to feel less sad by instead thinking that the person is just resting because they are tired, and they will feel better soon.<p>",
+	 		"<img src='img/1202.jpg'></img> <p>For another example, this image might spark fear if you are afraid of spiders. To reappraise the situation, you might think, 'this spider is very far away from me and cannot hurt me'.",
+	 		"Now, you will try reappraising an image yourself. Click next to see the image.",
+	 		"",
+	 		"How could you think about this situation in a way that would reduce the amount of negative emotion or increase the amount of positive emotion you feel?"
 	  ],
 	  show_clickable_nav: true
 	};
@@ -132,23 +133,22 @@
 	var explain = {
 	  type: 'instructions',
 	  pages: [
-	  	'<p>In this study, you will be asked to either attend to an image or rethink an image.<p>', 
-	  	'<p>You will first be shown an image for 1 second.<p>',
-	  	'<p>Then you will either attend to the image or rethink the image for 6 seconds. <p>',
-	  	'<p>If you see "Attend," do not do anything for 6 seconds. <p>',
+	  	'<p>Now we will give you the instructions for the trials in this task.<p>',
+	  	'<p>There are two types of trials in this task: attend and reappraise.<p>', 
+	  	'<p>You will first be shown an image for 1 second as a preview. Then you will be given 10 seconds to either attend to or reappraise the image. Finally, you will be shown the initial image again for 8 seconds.<p>',
+	  	'<p>In an attend trial, observe the image passively without trying to change your thinking.<p>',
 	  	function(){ 
 	  		// between subject case: if 0, user is given appraisal; if 1, user thinks of their own 
 			if (rethinkPath == 0) { 
-				return '<p>If you are given a reappraisal, read it for the full length of the 6 seconds.<p>'; 
+				return '<p>In a reappraisal trial, read the given appraisal and try to adopt its perspective for the remaining time to make yourself feel less negative emotion or more positive emotion.<p>'; 
 			} 
 			else { 
-				return '<p>If you see "Rethink," you will be asked to create your own reappraisal. Think of one for 6 seconds<p>'; 
+				return '<p>In a reappraisal trial, you will be asked to create your own reappraisal for the 10 seconds. Try to adopt that new perspective when looking at the image for the second time to make yourself feel less negative emotion or more positive emotion.<p>'; 
 			} 
 		}, 
-		'<p>Then you will be shown the initial image again for 6 seconds.<p>',
-		'<p>You will be asked to fill out a two-question survey ranking the positive and negative emotions you feel about the image that you saw.<p>',
-		'<p>For a select few images in the Rethink condition, you will also be asked to write down what reappraisal you thought about.<p>',
-		'<p>Click next to see a sample of what the study will look like.<p>'
+		'<p>You will be asked to rank your negative and positive emotions after each image.<p>',
+		'<p>For a few images, you will also be asked to write down what you thought about.<p>',
+		'<p>Click next to see a few example trials.<p>'
 		],
 	  show_clickable_nav: true
 	};
@@ -161,7 +161,7 @@
 			return "Attend";
 		},
 	  choices: jsPsych.NO_KEYS,
-	  trial_duration: 6000
+	  trial_duration: 10000
 	};
 
 	var step3_rethink = {
@@ -178,7 +178,7 @@
 			}
 		},
 	  choices: jsPsych.NO_KEYS,
-	  trial_duration: 6000
+	  trial_duration: 10000
 	};
 
 	var freewrite = {
@@ -224,15 +224,15 @@
 			}		
 		},
 	  choices: jsPsych.NO_KEYS,
-	  trial_duration: 6000
+	  trial_duration: 10000
 	};	
 
-	/* step 4: view image for six seconds */
+	/* step 4: view image for eight seconds */
 	var step4 = {
 	  type: 'image-keyboard-response',
 	  stimulus: jsPsych.timelineVariable('img'),
 	  choices: jsPsych.NO_KEYS,
-	  trial_duration: 6000
+	  trial_duration: 8000
 	};
 
 	/* step 5: have user rate their negative and positive emotions */
@@ -277,8 +277,8 @@
 	var trial_structure_attend = {
 	  timeline: [step1, step2, step3_attend, step4, step5, freewrite],
 	  timeline_variables: [
-       	{ img: 'img/blue.png', reappraisal: 'This is a blue circle' },
-       	{ img: 'img/orange.png', reappraisal: 'This is an orange circle' }
+       	{ img: 'img/2346.jpg', reappraisal: 'The women are playing in the waterfall; they\'re not in any danger.'},
+       	{ img: 'img/2751.jpg', reappraisal: 'The man is just drinking a soda, not an alcoholic beverage, so he\'s safe to drive.' }
       ] 
 	}
 	timeline.push(trial_structure_attend);
@@ -287,8 +287,8 @@
 	var trial_structure_rethink = {
 	  timeline: [step1, step2, step3_rethink, step4, step5, freewrite],
 	  timeline_variables: [
-       	{ img: 'img/blue.png', reappraisal: 'This is a blue circle' },
-       	{ img: 'img/orange.png', reappraisal: 'This is an orange circle' }
+       	{ img: 'img/2346.jpg', reappraisal: 'The women are playing in the waterfall; they\'re not in any danger.'},
+       	{ img: 'img/2751.jpg', reappraisal: 'The man is just drinking a soda, not an alcoholic beverage, so he\'s safe to drive.'}
       ]  
 	}
 	timeline.push(trial_structure_rethink);
