@@ -175,7 +175,7 @@
 			// between subject case: if 0, user is given appraisal; if 1, user thinks of their own
 			if (rethinkPath == 0) {
 				path = 1;
-				return jsPsych.timelineVariable('reappraisal');
+				return "Reappraisal: " + jsPsych.timelineVariable('reappraisal');
 			}
 			else {
 				path = 2;
@@ -220,7 +220,7 @@
 				// between subject case: if 0, user is given appraisal; if 1, user thinks of their own
 				if (rethinkPath == 0) {
 					path = 1;
-					return jsPsych.timelineVariable('reappraisal');
+					return "Reappraisal: " + jsPsych.timelineVariable('reappraisal');
 				}
 				else {
 					path = 2;
@@ -292,8 +292,8 @@
 	var trial_structure_rethink = {
 	  timeline: [step1, step2, step3_rethink, step4, step5, freewrite],
 	  timeline_variables: [
-       	{ img: 'img/2346.jpg', reappraisal: 'Reappraisal: The women are playing in the waterfall; they\'re not in any danger.'},
-       	{ img: 'img/2751.jpg', reappraisal: 'Reappraisal: The man is just drinking a soda, not an alcoholic beverage, so he\'s safe to drive.'}
+       	{ img: 'img/2346.jpg', reappraisal: 'The women are playing in the waterfall; they\'re not in any danger.'},
+       	{ img: 'img/2751.jpg', reappraisal: 'The man is just drinking a soda, not an alcoholic beverage, so he\'s safe to drive.'}
       ]  
 	}
 	timeline.push(trial_structure_rethink);
