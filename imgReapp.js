@@ -6,7 +6,6 @@
 */
 
 var reapp_low = '[ \
-    { "img": "img/1270.jpg", "reappraisal": "Since the bug looks like it under a microscope, the bug is probably not as big in real life" }, \
     { "img": "img/1271.jpg", "reappraisal": "The bugs look like they are happy and healthy in their enclosure" }, \
     { "img": "img/1301.jpg", "reappraisal": "The dog is excited and salivating to eat a piece of food being thrown to it" }, \
     { "img": "img/2278.jpg", "reappraisal": "The girls may be looking up at the sky and cloudwatching" }, \
@@ -17,7 +16,6 @@ var reapp_low = '[ \
     { "img": "img/1274.jpg", "reappraisal": "These insects may be scary, but they are an important part of our ecosystem."},\
     { "img": "img/1275.jpg", "reappraisal": "The insects aren\'t that big in real life."},\
     { "img": "img/1280.jpg", "reappraisal": "The rat is nowhere near me. It can\'t affect me."},\
-    { "img": "img/1301.jpg", "reappraisal": "This is actually a sweet pet who is playing fetch and about to catch the ball."},\
     { "img": "img/2120.jpg", "reappraisal": "The cops could protect me from this man."},\
     { "img": "img/2456.jpg", "reappraisal": "These people must be overcome with joy because they just won a huge prize."},\
     { "img": "img/2490.jpg", "reappraisal": "The man is probably in a nursing home where people can help him."},\
@@ -36,7 +34,7 @@ var reapp_low = '[ \
     { "img": "img/6561.jpg", "reappraisal": "The woman is in an emotional state, but the man is there to comfort her. She will let him in and he will help her."},\
     { "img": "img/6562.jpg", "reappraisal": "The woman can stay calm and do what is asked of her until the cops arrive to help."},\
     { "img": "img/6836.jpg", "reappraisal": "This man committed a terrible crime and justice is being served."},\
-    { "img": "img/7092.jpg", "reappraisal": " This person\'s weight does not affect me. I am my own person with my own body."},\
+    { "img": "img/7092.jpg", "reappraisal": "This person\'s weight does not affect me. I am my own person with my own body."},\
     { "img": "img/7135.jpg", "reappraisal": "Car accidents happen sometimes. Everyone in the car is safe and unharmed."},\
     { "img": "img/7359.jpg", "reappraisal": "If the bug on the plate is gross, I don\'t have to eat the pie. "},\
     { "img": "img/7360.jpg", "reappraisal": "If the bug on the plate is gross, I don\'t have to eat the pie. "},\
@@ -62,7 +60,6 @@ var reapp_low = '[ \
     { "img": "img/9171.jpg", "reappraisal": "These fish are important to these peoples\' culture. They will go to good use."},\
     { "img": "img/9180.jpg", "reappraisal": "These sea lions suffered, but there is no way to change that. Many people and organizations are working hard to prevent situations like this in the future."},\
     { "img": "img/9182.jpg", "reappraisal": "These horses lived a long, happy life together and passed on peacefully."},\
-    { "img": "img/9168.jpg", "reappraisal": "The moon is bright and beautiful tonight."},\
     { "img": "img/9190.jpg", "reappraisal": "This person seems hot and uncomfortable, but it will be better once the sun goes down."},\
     { "img": "img/9270.jpg", "reappraisal": "The person is safe because they are wearing protective gear."},\
     { "img": "img/9280.jpg", "reappraisal": "This is just the way our cities look because big factories give us the comforts of modern life. "},\
@@ -95,17 +92,15 @@ var reapp_low = '[ \
     { "img": "img/9912.jpg", "reappraisal": "This crash did not happen to me, it does not affect me in any way."},\
     { "img": "img/9926.jpg", "reappraisal": "The people are still able to touch the ground, they can make it out of the water just fine."}\
 ]';
-
+Reappraisal: 
 var reapp_high = '[ \
-    { "img": "img/blue.png", "reappraisal": "this is a blue circle" }, \
-    { "img": "img/orange.png", "reappraisal": "this is an orange circle" }, \
     { "img": "img/2053.jpg", "reappraisal": "Skilled doctors will be able to help this premature baby to a healthy condition."},\
     { "img": "img/2730.jpg", "reappraisal": "The child is just playing with the animals and will get cleaned up later."},\
     { "img": "img/2800.jpg", "reappraisal": "The parents of the crying child have the abilities and skills to handle the situation and stop their child\'s distress."},\
     { "img": "img/3000.jpg", "reappraisal": "The man is lucky to be alive, and the injury is less painful than it looks."},\
     { "img": "img/3005.1.jpg", "reappraisal": "The image is of a prop from a horror movie, and it is not a real child."},\
     { "img": "img/3010.jpg", "reappraisal": "The man will receive medical help and make a miraculous recovery."},\
-    { "img": "img/3015.jpg", "reappraisal": " I have no relation whatsoever to this person or situation, their pain does not impact me."},\
+    { "img": "img/3015.jpg", "reappraisal": "I have no relation whatsoever to this person or situation, their pain does not impact me."},\
     { "img": "img/3030.jpg", "reappraisal": "The situation is not that bad because the man\'s wounds look clean and he is resting."},\
     { "img": "img/3060.jpg", "reappraisal": "Injuries and accidents happen to people, that\'s the unfortunate way life is."},\
     { "img": "img/3064.jpg", "reappraisal": "The people who committed this crime will be brought to justice and face the consequences."},\
