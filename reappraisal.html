@@ -639,14 +639,14 @@
       timeline: timeline,
       override_safe_mode: false,
       on_finish: function () {
-        /* // directing participants to different sites based on url parameter 
+      // directing participants to different sites based on url parameter 
         const route = jsPsych.data.getURLVariable("route");
-        if (route == 'X'){
-          window.location.replace('url1');
+        if (route == 'invfirst'){
+          window.location.replace('https://example.com?route=invfirst&pid=1234&pool=stanford');
         }
-        else if (route == 'Y'){
-          window.location.replace('url2');
-        }*/
+        else if (route == 'regfirst'){
+          window.location.replace('https://stanforduniversity.qualtrics.com/jfe/form/SV_9nkSCx0Hcp1IRpk?route=regfirst&pid=1234&pool=stanford');
+        }
       },
     });
 
