@@ -498,11 +498,11 @@
         const route = jsPsych.data.getURLVariable("route");
         if (route == "invfirst") {
           window.location.replace(
-            "https://example.com?route=invfirst&pid=e://Field/pid&pool=e://Field/pool"
+            "https://example.com?route=invfirst&pid=${e://Field/pid}&pool=${e://Field/pool}"
           );
         } else if (route == "regfirst") {
           window.location.replace(
-            "https://stanforduniversity.qualtrics.com/jfe/form/SV_9nkSCx0Hcp1IRpk?route=regfirst&pid=e://Field/pid&pool=e://Field/pool"
+            "https://stanforduniversity.qualtrics.com/jfe/form/SV_9nkSCx0Hcp1IRpk?route=regfirst&pid=${e://Field/pid}&pool=${e://Field/pool}"
           );
         }
       },
