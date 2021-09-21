@@ -26,7 +26,6 @@
 
   <script type="text/javascript" src="imgReapp.js"></script>
   <script>
-
       const route = jsPsych.data.getURLVariable("route");
       const pool = jsPsych.data.getURLVariable("pool");
       const pid = jsPsych.data.getURLVariable("pid");
@@ -501,10 +500,11 @@
     /* start the experiment */
     jsPsych.init({
       timeline: timeline,
+      override_safe_mode: false,
       on_finish: function(){
           window.location.replace("https://stanforduniversity.qualtrics.com/jfe/form/SV_9nkSCx0Hcp1IRpk?route=" + 
           route+ "&pid="+pid+ "&pool="+pool);
-    }
+    }    
     });
   </script>
 </html>
