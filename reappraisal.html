@@ -26,13 +26,18 @@
 
   <script type="text/javascript" src="imgReapp.js"></script>
   <script>
-    /**
+
+      const route = jsPsych.data.getURLVariable("route");
+      const pool = jsPsych.data.getURLVariable("pool");
+      const pid = jsPsych.data.getURLVariable("pid");
+      jsPsych.data.addProperties({"pid": pid, "pool": pool, "route": route})
+/**
      * Shuffles array in place. Based on Fisher-Yates Shuffle Algorithm
      * https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
      *
      * @param {Array} a items An array containing the items.
      */
-    function shuffle(a) {
+     function shuffle(a) {
       var j, x, i;
       for (i = a.length - 1; i > 0; i--) {
         j = Math.floor(Math.random() * (i + 1));
@@ -72,11 +77,15 @@
     jsonObj_high.forEach(function (entry) {
       imgName_high.push(entry.img);
     });
+    
+    console.log(imgName_high)
+    console.log(imgName_low)
 
     var preload = {
       type: "preload",
-      images: imgName_low.concat(imgName_high),
-    };
+      images: function(){ return imgName_low.concat(imgName_high).concat(['img/2357.jpg','img/1202.jpg','img/3300.JPG',
+      "img/2981.jpg","img/3301.jpg","img/2346.jpg","img/2751.jpg"]) 
+    }};
     timeline.push(preload);
 
     /* shuffles low and high intensity image arrays and partitions out 15 from each array into three blocks */
@@ -88,13 +97,11 @@
     var block3 = [];
 
     var block1_ac_indices = sample_random_indices(3, 0, 15);
-    console.log(block1_ac_indices);
     var block2_ac_indices = sample_random_indices(3, 15, 30);
     var block_3_ac_indices = sample_random_indices(3, 30, 45);
 
     for (i = 0; i < 45; i++) {
       image_low = img_low[i];
-      console.log(img_low[i]);
       image_high = img_high[i];
       if (i < 15) {
         if (block1_ac_indices.includes(i)) {
@@ -182,6 +189,7 @@
             "Please write down an interpretation of the image that would help you feel less bad.",
           rows: 5,
           columns: 40,
+          required: true
         },
       ],
     };
@@ -238,7 +246,7 @@
           );
         } else {
           path = 2;
-          return "<p style='font-size: 4vw;'> Think of your own reapprasial </p>";
+          return "<p style='font-size: 4vw;'> Think of your own reappraisal </p>";
         }
       },
       choices: jsPsych.NO_KEYS,
@@ -252,6 +260,7 @@
           prompt: "What did you think about when you were viewing the picture?",
           rows: 5,
           columns: 40,
+          required: true
         },
       ],
     };
@@ -436,7 +445,7 @@
     var break1 = {
       type: "instructions",
       pages: [
-        "We have now finished Block 1. Click next to continue to Block 2.",
+        "<p> You have now finished Block 1. <b> Good job!</b> <br> Click next to continue to Block 2. </p>",
       ],
       show_clickable_nav: true,
     };
@@ -459,7 +468,7 @@
     var break2 = {
       type: "instructions",
       pages: [
-        "We have now finished Block 2. We really appreciate your continued attention. In order for the researchers to benefit from your time and effort, it is important that you continue to provide thorough and authentic responses in this part of the study. Click next to continue to the last section of the study, Block 3.",
+        "<p> You have now finished Block 2. <b> Good job! </b> <p>"," We really appreciate your continued attention. <br> In order for the researchers to benefit from your time and effort, <br> it is important that you continue to provide thorough and authentic responses in this part of the study. <br><br> Click next to continue to the last section of the study, Block 3.",
       ],
       show_clickable_nav: true,
     };
@@ -482,7 +491,7 @@
     var break3 = {
       type: "instructions",
       pages: [
-        "We have now finished Block 3. Thank you for your participation.",
+        "You have now finished Block 3. <br> <b>Thank you for your participation! </b>",
       ],
       show_clickable_nav: true,
     };
@@ -492,20 +501,10 @@
     /* start the experiment */
     jsPsych.init({
       timeline: timeline,
-      override_safe_mode: false,
-      on_finish: function () {
-        // directing participants to different sites based on url parameter
-        const route = jsPsych.data.getURLVariable("route");
-        if (route == "invfirst") {
-          window.location.replace(
-            "https://example.com?route=invfirst&pid=e://Field/pid&pool=e://Field/pool"
-          );
-        } else if (route == "regfirst") {
-          window.location.replace(
-            "https://stanforduniversity.qualtrics.com/jfe/form/SV_9nkSCx0Hcp1IRpk?route=regfirst&pid=e://Field/pid&pool=e://Field/pool"
-          );
-        }
-      },
+      on_finish: function(){
+          window.location.replace("https://stanforduniversity.qualtrics.com/jfe/form/SV_9nkSCx0Hcp1IRpk?route=" + 
+          route+ "&pid="+pid+ "&pool="+pool);
+    }
     });
   </script>
 </html>
