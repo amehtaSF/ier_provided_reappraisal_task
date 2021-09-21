@@ -1,8 +1,10 @@
 <!-- 
 	Reappraisal Task Script
 
+  Daniel Wurgaft
 	Liz Song, <lizsong@stanford.edu>
 	May, 2021
+
 -->
 
 <!DOCTYPE html>
@@ -167,14 +169,15 @@
     var trainRethink = {
       type: "instructions",
       pages: [
-        "In this study, you will view negative emotional images. In some cases, you will use an emotion regulation strategy called reappraisal to try to change your emotional response.",
-        "To reappraise an emotional image, think about the situation in a different way to reduce the amount of negative emotion or increase the amount of positive emotion you may feel.",
+        "In this study, you will view negative emotional images.",
+        "For some images, you will be asked to use an emotion regulation strategy called reappraisal to try to change your emotional response.",
+        "To reappraise an emotional image, you can think about the situation in a different way to reduce the amount of negative emotion or increase the amount of positive emotion you may feel.",
         "Click next to move on to see a few example images and example reappraisals.",
-        `<img src='img/2357.jpg' style="width: 50%;"></img> <p>You might see this image and feel a negative emotion such as sadness because the person looks depressed. You could reappraise the situation to feel less sad by instead thinking that the person is just resting because they are tired, and they will feel better soon.<p>`,
+        `<img src='img/2357.jpg' style="width: 50%;"></img> <p>You might see this image and feel a negative emotion such as sadness because the person looks depressed. However, you could reappraise the situation to feel less sad by instead thinking that the person is just resting because they are tired, and they will feel better soon.<p>`,
         `<img src='img/1202.jpg' style="width: 50%;"></img> <p>For another example, this image might spark fear if you are afraid of spiders. To reappraise the situation, you might think, 'this spider is very far away from me and cannot hurt me'.`,
         "Now, you will try reappraising an image yourself. Click next to see the image.",
-        "<img src='img/3300.JPG' style='width: 70%;'></img>",
-        "How could you think about this situation in a way that would reduce the amount of negative emotion or increase the amount of positive emotion you feel?",
+        "<img src='img/3300.JPG' style='width: 70%;'></img> <br/>\
+        How could you think about the situation in this image in a way that would reduce the amount of negative emotion or increase the amount of positive emotion you feel?",
       ],
       show_clickable_nav: true,
     };
@@ -185,7 +188,7 @@
       questions: [
         {
           prompt:
-            "Please write down an interpretation of the image that would help you feel less bad.",
+            "Please write down an interpretation of the previous image that would help you feel less bad.",
           rows: 5,
           columns: 40,
           required: true
@@ -202,18 +205,18 @@
       pages: [
         "<p>Now we will give you the instructions for the trials in this task.<p>",
         "<p>There are two types of trials in this task: attend and reappraise.<p>",
-        "<p>You will first be shown an image for 1 second as a preview. Then you will be given 10 seconds to either attend to or reappraise the image. Finally, you will be shown the initial image again for 8 seconds.<p>",
-        "<p>In an attend trial, observe the image passively without trying to change your thinking.<p>",
+        "<p>In each trial, you will first be shown an image for 1 second as a preview. Then you will be given 10 seconds to either <em>attend</em> to or <em>reappraise</em> the image. Finally, you will be shown the initial image again for 8 seconds.<p>",
+        "<p>In an <em>attend</em> trial, observe the image passively without trying to change your thinking.<p>",
         function () {
           // between subject case: if 0, user is given appraisal; if 1, user thinks of their own
           if (rethinkPath == 0) {
-            return "<p>In a reappraisal trial, please read the given appraisal. Try to adopt that new perspective when looking at the image for the second time to make yourself feel less negative emotion or more positive emotion.<p>";
+            return "<p>In a <em>reappraise</em> trial, please read the provided reappraisal. Try to adopt that new perspective when looking at the image for the second time to make yourself feel less negative emotion or more positive emotion.<p>";
           } else {
-            return "<p>In a reappraisal trial, please create your own reappraisal. Try to adopt that new perspective when looking at the image for the second time to make yourself feel less negative emotion or more positive emotion.<p>";
+            return "<p>In a reappraise trial, please create your own reappraisal. Try to adopt that new perspective when looking at the image for the second time to make yourself feel less negative emotion or more positive emotion.<p>";
           }
         },
         "<p>You will be asked to rank your negative and positive emotions after each image.<p>",
-        "<p>For a few images, you will also be asked to write down what you thought about.<p>",
+        "<p>For a few images, you will also be asked to write down what you thought about while viewing the image.<p>",
         "<p>Click next to see a few example trials.<p>",
       ],
       show_clickable_nav: true,
@@ -245,7 +248,7 @@
           );
         } else {
           path = 2;
-          return "<p style='font-size: 4vw;'> Think of your own reappraisal </p>";
+          return "<p style='font-size: 4vw;'>Think of a reappraisal for the image</p>";
         }
       },
       choices: jsPsych.NO_KEYS,
@@ -256,7 +259,7 @@
       type: "survey-text",
       questions: [
         {
-          prompt: "What did you think about when you were viewing the picture?",
+          prompt: "What did you think about while you were viewing the picture?",
           rows: 5,
           columns: 40,
           required: true
@@ -307,7 +310,7 @@
             );
           } else {
             path = 2;
-            return "<p style='font-size: 4vw;'> Think of your own reapprasial </p>";
+            return "<p style='font-size: 4vw;'>Think of a reappraisal for the image</p>";
           }
         }
       },
