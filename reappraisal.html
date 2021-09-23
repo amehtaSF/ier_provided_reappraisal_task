@@ -28,10 +28,16 @@
 
   <script type="text/javascript" src="imgReapp.js"></script>
   <script>
+
       const route = jsPsych.data.getURLVariable("route");
       const pool = jsPsych.data.getURLVariable("pool");
       const pid = jsPsych.data.getURLVariable("pid");
       jsPsych.data.addProperties({"pid": pid, "pool": pool, "route": route})
+
+      // fall 2021 URLs
+      const psychOneCreditURL = "https://stanfordpsych.sona-systems.com/webstudy_credit.aspx?experiment_id=676&credit_token=5d2f65dab4a740d48977951e65beda15&survey_code=" + pid
+      const repCreditURL = "https://stanford-rep.sona-systems.com/webstudy_credit.aspx?experiment_id=1123&credit_token=e30eeb4d9a4c4a358b641b1d826910a8&survey_code=" + pid
+      const inventivenessTaskURL = "https://stanforduniversity.qualtrics.com/jfe/form/SV_9nkSCx0Hcp1IRpk?route=" + route + "&pid=" + pid + "&pool=" + pool
 /**
      * Shuffles array in place. Based on Fisher-Yates Shuffle Algorithm
      * https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
@@ -505,8 +511,17 @@
       timeline: timeline,
       override_safe_mode: false,
       on_finish: function(){
-          window.location.replace("https://stanforduniversity.qualtrics.com/jfe/form/SV_9nkSCx0Hcp1IRpk?route=" + 
-          route+ "&pid="+pid+ "&pool="+pool);
+        if (route == "regfirst"){
+          window.location.replace(inventivenessTaskURL);
+        } else if (route == "invfirst"){
+          if (pool == "psychone"){
+            window.location.replace(psychOneCreditURL);
+          }
+          if (pool == "rep"){
+            window.location.replace(repCreditURL);
+          }
+          
+        }
     }    
     });
   </script>
